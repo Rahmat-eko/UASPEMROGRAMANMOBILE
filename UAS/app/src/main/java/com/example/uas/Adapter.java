@@ -1,5 +1,6 @@
 package com.example.uas;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +41,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.title.setText(notesList.get(position).getTitle());
         holder.description.setText(notesList.get(position).getDescription());
