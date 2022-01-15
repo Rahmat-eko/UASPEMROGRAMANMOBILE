@@ -39,7 +39,7 @@ public class AddNotesActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Toast.makeText(AddNotesActivity.this, "Both Fields Required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNotesActivity.this, "Judul & Catatan Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
                 }
 
 

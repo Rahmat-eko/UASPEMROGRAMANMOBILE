@@ -57,11 +57,11 @@ public class DatabaseClass extends SQLiteOpenHelper {
 
         if (resultValue ==-1)
         {
-            Toast.makeText(context, "Data Not Added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Catatan Tidak Ditambahkan", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(context, "Data Added Succesfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Catatan Berhasil Ditambahkan", Toast.LENGTH_SHORT).show();
         }
     }
     Cursor readAllData()
@@ -94,11 +94,11 @@ public class DatabaseClass extends SQLiteOpenHelper {
         long result=database.update(TableName,cv,"id=?",new String[]{id});
         if (result==-1)
         {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Gagal", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Berhasil", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -110,13 +110,11 @@ public class DatabaseClass extends SQLiteOpenHelper {
         long result =database.delete(TableName,"id=?",new String[]{id});
         if (result==-1)
         {
-            Toast.makeText(context, "Item Not Deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Catatan Tidak Terhapus", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(context, "Item Deleted Succesfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Catatan Berhasil Dihapus", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
        if (cursor.getCount()==0)
        {
-           Toast.makeText(this, "No Data to show", Toast.LENGTH_SHORT).show();
+           Toast.makeText(this, "Belum Ada Catatan", Toast.LENGTH_SHORT).show();
        }
        else
        {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem searchItem = menu.findItem(R.id.searchbar);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search Notes Here");
+        searchView.setQueryHint("Cari Catatan Disini");
 
         SearchView.OnQueryTextListener listener=new SearchView.OnQueryTextListener(){
             @Override
@@ -148,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
             adapter.removeItem(viewHolder.getAdapterPosition());
 
-            Snackbar snackbar =Snackbar.make(coordinatorLayout,"Item Deleted",Snackbar.LENGTH_LONG)
-                    .setAction("UNDO", new View.OnClickListener() {
+            Snackbar snackbar =Snackbar.make(coordinatorLayout,"Catatan Dihapus",Snackbar.LENGTH_LONG)
+                    .setAction("Batal Hapus", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             adapter.restoreItem(item,position);
