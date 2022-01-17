@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView=findViewById(R.id.recycler_view);
-        fab=findViewById(R.id.fab);
-        coordinatorLayout=findViewById(R.id.layout_main);
+        recyclerView = findViewById(R.id.recycler_view);
+        fab = findViewById(R.id.fab);
+        coordinatorLayout = findViewById(R.id.layout_main);
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        notelist=new ArrayList<>();
-        databaseClass=new DatabaseClass(this);
+        notelist = new ArrayList<>();
+        databaseClass = new DatabaseClass(this);
         fetchAllNotesFromDatabase();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new Adapter(this,MainActivity.this,notelist);
+        adapter = new Adapter(this,MainActivity.this,notelist);
         recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper helper =new ItemTouchHelper(callback);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(recyclerView);
     }
 
@@ -81,10 +81,9 @@ public class MainActivity extends AppCompatActivity {
        {
            while (cursor.moveToNext())
            {
-               notelist.add(new Model(cursor.getString(0),cursor.getString(1),cursor.getString(2)));
+               notelist.add(new Model(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3)));
            }
        }
-
     }
 
     @Override
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("Cari Catatan Disini");
 
-        SearchView.OnQueryTextListener listener=new SearchView.OnQueryTextListener(){
+        SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -117,24 +116,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-    if (item.getItemId()==R.id.delete_all_notes)
-    {
-        deleteAllNotes();
-    }
-
+        if (item.getItemId() == R.id.delete_all_notes)
+        {
+            deleteAllNotes();
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void deleteAllNotes()
     {
-        DatabaseClass db =new DatabaseClass(MainActivity.this);
+        DatabaseClass db = new DatabaseClass(MainActivity.this);
         db.deleteAllNotes();
         recreate();
     }
 
 
-    ItemTouchHelper.SimpleCallback callback =new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -143,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
-            int position =viewHolder.getAdapterPosition();
-            Model item =adapter.getList().get(position);
+            int position = viewHolder.getAdapterPosition();
+            Model item = adapter.getList().get(position);
 
             adapter.removeItem(viewHolder.getAdapterPosition());
 
-            Snackbar snackbar =Snackbar.make(coordinatorLayout,"Catatan Dihapus",Snackbar.LENGTH_LONG)
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Catatan Dihapus",Snackbar.LENGTH_LONG)
                     .setAction("Batal Hapus", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -160,20 +158,17 @@ public class MainActivity extends AppCompatActivity {
                         public void onDismissed(Snackbar transientBottomBar, int event) {
                             super.onDismissed(transientBottomBar, event);
 
-                            if (!(event==DISMISS_EVENT_ACTION))
+                            if (!(event == DISMISS_EVENT_ACTION))
                             {
-                                DatabaseClass db=new DatabaseClass(MainActivity.this);
+                                DatabaseClass db = new DatabaseClass(MainActivity.this);
                                 db.deleteSingleItem(item.getId());
                             }
 
 
                         }
                     });
-
             snackbar.setActionTextColor(Color.YELLOW);
             snackbar.show();
-
         }
     };
-
 }
