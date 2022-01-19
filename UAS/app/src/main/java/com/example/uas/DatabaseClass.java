@@ -12,18 +12,19 @@ import androidx.annotation.Nullable;
 public class DatabaseClass extends SQLiteOpenHelper {
 
     Context context;
-    private static final String DatabaseName="MyNotes";
-    private static final int DatabaseVersion=1;
+    private static final String DatabaseName = "MyNotes";
+    private static final int DatabaseVersion = 2;
 
-    private static final String TableName="mynotes";
-    private static final String ColumnId="id";
-    private static final String ColumnTitle="title";
-    private static final String ColumnDescription="description";
+    private static final String TableName = "mynotes";
+    private static final String ColumnId = "id";
+    private static final String ColumnDate = "date";
+    private static final String ColumnTitle = "title";
+    private static final String ColumnDescription = "description";
 
 
     public DatabaseClass(@Nullable Context context) {
         super(context, DatabaseName, null, DatabaseVersion);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -31,6 +32,7 @@ public class DatabaseClass extends SQLiteOpenHelper {
 
         String query= "CREATE TABLE " + TableName +
                 " (" + ColumnId + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ColumnDate + " TEXT, " +
                 ColumnTitle + " TEXT, " +
                 ColumnDescription + " TEXT);";
 
@@ -44,55 +46,58 @@ public class DatabaseClass extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addNotes(String title, String description)
+    void addNotes(String date, String title, String description)
     {
-        SQLiteDatabase db=this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues cv=new ContentValues();
+        ContentValues cv = new ContentValues();
 
-        cv.put(ColumnTitle,title);
-        cv.put(ColumnDescription,description);
+        cv.put(ColumnDate, date);
+        cv.put(ColumnTitle, title);
+        cv.put(ColumnDescription, description);
 
-        long resultValue = db.insert(TableName,null,cv);
+        long resultValue = db.insert(TableName,null, cv);
 
-        if (resultValue ==-1)
+        if (resultValue == -1)
         {
-            Toast.makeText(context, "Catatan Tidak Ditambahkan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Catatan Gagal Ditambahkan", Toast.LENGTH_SHORT).show();
         }
         else
         {
             Toast.makeText(context, "Catatan Berhasil Ditambahkan", Toast.LENGTH_SHORT).show();
         }
     }
+
     Cursor readAllData()
     {
         String query = "SELECT * FROM " + TableName;
         SQLiteDatabase database = this.getReadableDatabase();
 
-        Cursor cursor=null;
-        if (database!=null)
+        Cursor cursor = null;
+        if (database != null)
         {
             cursor = database.rawQuery(query , null);
         }
-          return cursor;
+        return cursor;
     }
 
     void deleteAllNotes(){
         SQLiteDatabase database = this.getWritableDatabase();
-        String query= "DELETE FROM " + TableName;
+        String query = "DELETE FROM " + TableName;
         database.execSQL(query);
     }
 
-    void updateNotes(String title,String description,String id)
+    void updateNotes(String date, String title,String description,String id)
     {
-        SQLiteDatabase database=this.getWritableDatabase();
+        SQLiteDatabase database = this.getWritableDatabase();
 
-        ContentValues cv=new ContentValues();
-        cv.put(ColumnTitle,title);
-        cv.put(ColumnDescription,description);
+        ContentValues cv = new ContentValues();
+        cv.put(ColumnDate, date);
+        cv.put(ColumnTitle, title);
+        cv.put(ColumnDescription, description);
 
-        long result=database.update(TableName,cv,"id=?",new String[]{id});
-        if (result==-1)
+        long result = database.update(TableName, cv,"id=?", new String[]{id});
+        if (result == -1)
         {
             Toast.makeText(context, "Gagal", Toast.LENGTH_SHORT).show();
         }
@@ -100,15 +105,14 @@ public class DatabaseClass extends SQLiteOpenHelper {
         {
             Toast.makeText(context, "Berhasil", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void deleteSingleItem(String id)
     {
-        SQLiteDatabase database=this.getWritableDatabase();
+        SQLiteDatabase database = this.getWritableDatabase();
 
-        long result =database.delete(TableName,"id=?",new String[]{id});
-        if (result==-1)
+        long result = database.delete(TableName,"id=?",new String[]{id});
+        if (result == -1)
         {
             Toast.makeText(context, "Catatan Tidak Terhapus", Toast.LENGTH_SHORT).show();
         }

@@ -30,27 +30,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
         this.context = context;
         this.activity = activity;
         this.notesList = notesList;
-        newList=new ArrayList<>(notesList);
+        newList = new ArrayList<>(notesList);
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_layout, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+        holder.date.setText(notesList.get(position).getDate());
         holder.title.setText(notesList.get(position).getTitle());
         holder.description.setText(notesList.get(position).getDescription());
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(context,UpdateNotesActivity.class);
+                Intent intent = new Intent(context,UpdateNotesActivity.class);
 
+                intent.putExtra("date",notesList.get(position).getDate());
                 intent.putExtra("title",notesList.get(position).getTitle());
                 intent.putExtra("description",notesList.get(position).getDescription());
                 intent.putExtra("id",notesList.get(position).getId());
@@ -70,19 +72,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
         return exampleFilter;
     }
 
-    private Filter exampleFilter =new Filter() {
+    private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Model> filteredList=new ArrayList<>();
+            List<Model> filteredList = new ArrayList<>();
 
-            if (constraint ==null || constraint.length()==0)
+            if (constraint == null || constraint.length()==0)
             {
                 filteredList.addAll(newList);
             }
 
             else
             {
-                String filterPattern=constraint.toString().toLowerCase().trim();
+                String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (Model item:newList)
                 {
@@ -93,8 +95,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
                 }
 
             }
-            FilterResults results=new FilterResults();
-            results.values=filteredList;
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
             return results;
         }
 
@@ -107,14 +109,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
     };
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView title, description;
+        TextView date, title, description;
         RelativeLayout layout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-           title=itemView.findViewById(R.id.title);
-           description=itemView.findViewById(R.id.description);
-           layout=itemView.findViewById(R.id.note_layout);
+            date = itemView.findViewById(R.id.date);
+            title = itemView.findViewById(R.id.title);
+            description = itemView.findViewById(R.id.description);
+            layout = itemView.findViewById(R.id.note_layout);
         }
     }
 
