@@ -14,8 +14,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Tanggal"
         android:focusable="false"
+        android:hint="Tanggal"
         android:inputType="date"
         android:textColor="?android:textColorPrimary" />
 
